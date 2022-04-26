@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
-//
+import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 //
 import 'providers/great_places.dart';
 import './screens/index.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
   runApp(MyApp());
 }
 

@@ -8,7 +8,8 @@ class PlaceLocation {
   final double long;
   final String address;
 
-  PlaceLocation({required this.lat, required this.long, this.address = ''});
+  const PlaceLocation(
+      {required this.lat, required this.long, this.address = ''});
 
   PlaceLocation.empty()
       : lat = 0.0,
@@ -25,7 +26,7 @@ class Place {
   Place({required this.title, required this.location, required this.image})
       : id = uuid.v1();
 
-  Place.withId(
+  const Place.withId(
       {required this.id,
       required this.title,
       required this.location,
