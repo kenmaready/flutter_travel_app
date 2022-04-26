@@ -53,8 +53,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<!-- <key>GOOGLE_MAPS_API_KEY</key> -->
-	<!-- <string>AIzaSyCdDakCI7J7AdcY5wjpKY5kvPnhYLcr18A</string> -->
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
 </dict>
