@@ -1,5 +1,8 @@
+import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path/path.dart' as path;
 import 'dart:io';
 //
 import '../providers/great_places.dart';
@@ -88,6 +91,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   ImageInputField(onSelectImage: _selectImage),
                   const SizedBox(height: 10),
                   LocationInput(onSelectLocation: _selectLocation),
+                  const SizedBox(height: 10),
+                  TestingImageInput(
+                    onSelectImage: _selectImage,
+                  ),
                 ]),
               ))),
               ElevatedButton.icon(
@@ -100,5 +107,52 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       elevation: 0,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap)),
             ]));
+  }
+}
+
+class TestingImageInput extends StatelessWidget {
+  final default_image_filename = 'assets/test_image.jpeg';
+  final Function onSelectImage;
+
+  TestingImageInput({Key? key, required this.onSelectImage}) : super(key: key);
+
+  Future<void> _selectTestingImage() async {
+    final appDir = await syspaths.getApplicationDocumentsDirectory();
+    final localPath = appDir.path;
+
+    File file = File('$localPath/${path.split('/').last}/test_image.jpeg');
+
+    final ByteData imageBytes = await rootBundle.load("assets/test_image.jpeg");
+    final buffer = imageBytes.buffer;
+
+    final savedImage = await file.writeAsBytes(
+        buffer.asUint8List(imageBytes.offsetInBytes, imageBytes.lengthInBytes));
+
+    print("savedImage stored at ${savedImage.path}");
+    onSelectImage(savedImage);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(width: 3, color: Colors.red.shade300),
+          color: Colors.pink.shade200),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        Container(
+          width: 90,
+          height: 45,
+          decoration: BoxDecoration(
+              border: Border.all(width: 1, color: Colors.grey.shade400)),
+          child: Image.asset(default_image_filename,
+              fit: BoxFit.cover, width: double.infinity),
+        ),
+        Container(
+            width: 120,
+            child: ElevatedButton(
+                child: Text("Add Default Test Image?"),
+                onPressed: _selectTestingImage))
+      ]),
+    );
   }
 }

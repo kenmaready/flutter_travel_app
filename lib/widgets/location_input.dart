@@ -22,20 +22,16 @@ class _LocationInputState extends State<LocationInput> {
   Future<void> _getCurrentUserLocation() async {
     try {
       final locationData = await Geolocator.getCurrentPosition();
-      print(
-          "LocationData: {lat: ${locationData.latitude}, long: ${locationData.longitude}}");
-      setState(() {
-        _previewImageUrl = LocationHelper.generateLocationPreviewImage(
-            lat: locationData.latitude, long: locationData.longitude);
-      });
+      _showPreviewOfLocation(locationData.latitude, locationData.longitude);
       widget.onSelectLocation(
           lat: locationData.latitude, long: locationData.longitude);
     } catch (error) {
       print("error in _getCurrentUserLocation(): ${error}");
+      return;
     }
   }
 
-  Future<void> _selectionLocationOnMap() async {
+  Future<void> _selectLocationOnMap() async {
     final LatLng selectedLocation = await Navigator.of(context).push(
         MaterialPageRoute(
             builder: (ctx) => const MapScreen(isSelecting: true),
@@ -43,10 +39,17 @@ class _LocationInputState extends State<LocationInput> {
 
     if (selectedLocation == null) return;
 
-    print(
-        "selectedLocation: {${selectedLocation.latitude}, ${selectedLocation.longitude}}");
+    _showPreviewOfLocation(
+        selectedLocation.latitude, selectedLocation.longitude);
     widget.onSelectLocation(
         lat: selectedLocation.latitude, long: selectedLocation.longitude);
+  }
+
+  void _showPreviewOfLocation(double lat, double long) {
+    setState(() {
+      _previewImageUrl =
+          LocationHelper.generateLocationPreviewImage(lat: lat, long: long);
+    });
   }
 
   @override
@@ -77,7 +80,7 @@ class _LocationInputState extends State<LocationInput> {
             TextButton.icon(
                 icon: const Icon(Icons.map),
                 label: const Text('Choose a location'),
-                onPressed: _selectionLocationOnMap)
+                onPressed: _selectLocationOnMap)
           ],
         )
       ],

@@ -26,7 +26,10 @@ class MyApp extends StatelessWidget {
               secondary: Colors.brown.shade200),
         ),
         home: const PlacesListScreen(),
-        routes: {AddPlaceScreen.routeName: ((context) => AddPlaceScreen())},
+        routes: {
+          PlaceDetailScreen.routeName: ((context) => PlaceDetailScreen()),
+          AddPlaceScreen.routeName: ((context) => AddPlaceScreen()),
+        },
         debugShowCheckedModeBanner: false,
       ),
     );

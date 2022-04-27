@@ -13,10 +13,15 @@ class LocationHelper {
 
   static Future<String> getPlaceAddress(
       {required double lat, required double long}) async {
-    final url = Uri.https('https://maps.googleapis.com/maps/api/',
-        '/geocode/json?latlng=$lat,$long&key=$api_key');
+    final params = {
+      'latlng': '$lat,$long',
+      'key': api_key,
+    };
+    final url =
+        Uri.https('maps.googleapis.com', '/maps/api/geocode/json', params);
 
     final response = await http.get(url);
+    print("response.body: ${json.decode(response.body)}");
     return json.decode(response.body)['results'][0]['formatted_address'];
   }
 }

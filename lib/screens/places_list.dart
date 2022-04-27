@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 //
 import '../providers/great_places.dart';
+import '../widgets/place_item.dart';
 import './add_place.dart';
 
 class PlacesListScreen extends StatelessWidget {
@@ -19,24 +20,20 @@ class PlacesListScreen extends StatelessWidget {
           child: FutureBuilder(
             future:
                 Provider.of<GreatPlaces>(context, listen: false).fetchPlaces(),
-            builder: (ctx, snapshot) => snapshot.connectionState ==
-                    ConnectionState.waiting
-                ? const Center(child: CircularProgressIndicator())
-                : Consumer<GreatPlaces>(
-                    child:
-                        const Text("No Places Saved Yet, Start Adding Some!"),
-                    builder: (ctx, greatPlaces, ch) => (greatPlaces.items.length <= 0)
-                        ? ch as Text
-                        : ListView.builder(
-                            itemCount: greatPlaces.items.length,
-                            itemBuilder: (ctx, index) => ListTile(
-                                leading: CircleAvatar(
-                                    backgroundImage: FileImage(
-                                        greatPlaces.items[index].image)),
-                                title: Text(greatPlaces.items[index].title),
-                                subtitle: Text(
-                                    greatPlaces.items[index].location.address),
-                                onTap: () {}))),
+            builder: (ctx, snapshot) =>
+                snapshot.connectionState == ConnectionState.waiting
+                    ? const Center(child: CircularProgressIndicator())
+                    : Consumer<GreatPlaces>(
+                        child: Center(
+                            child: const Text(
+                                "No Places Saved Yet, Start Adding Some!")),
+                        builder: (ctx, greatPlaces, ch) =>
+                            (greatPlaces.items.length <= 0)
+                                ? ch as Text
+                                : ListView.builder(
+                                    itemCount: greatPlaces.items.length,
+                                    itemBuilder: (ctx, index) => PlaceItem(
+                                        place: greatPlaces.items[index]))),
           ),
         ),
         SizedBox(
