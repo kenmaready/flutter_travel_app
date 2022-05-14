@@ -20,13 +20,12 @@ class PlacesListScreen extends StatelessWidget {
           child: FutureBuilder(
             future:
                 Provider.of<GreatPlaces>(context, listen: false).fetchPlaces(),
-            builder: (ctx, snapshot) =>
-                snapshot.connectionState == ConnectionState.waiting
-                    ? const Center(child: CircularProgressIndicator())
-                    : Consumer<GreatPlaces>(
-                        child: Center(
-                            child: const Text(
-                                "No Places Saved Yet, Start Adding Some!")),
+            builder: (ctx, snapshot) => snapshot.connectionState ==
+                    ConnectionState.waiting
+                ? const Center(child: CircularProgressIndicator())
+                : Center(
+                    child: Consumer<GreatPlaces>(
+                        child: Text("No Places Saved Yet, Start Adding Some!"),
                         builder: (ctx, greatPlaces, ch) =>
                             (greatPlaces.items.length <= 0)
                                 ? ch as Text
@@ -34,6 +33,7 @@ class PlacesListScreen extends StatelessWidget {
                                     itemCount: greatPlaces.items.length,
                                     itemBuilder: (ctx, index) => PlaceItem(
                                         place: greatPlaces.items[index]))),
+                  ),
           ),
         ),
         SizedBox(

@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         ),
         home: const PlacesListScreen(),
         routes: {
-          PlaceDetailScreen.routeName: ((context) => PlaceDetailScreen()),
-          AddPlaceScreen.routeName: ((context) => AddPlaceScreen()),
+          PlaceDetailScreen.routeName: ((context) => const PlaceDetailScreen()),
+          AddPlaceScreen.routeName: ((context) => const AddPlaceScreen()),
         },
         debugShowCheckedModeBanner: false,
       ),

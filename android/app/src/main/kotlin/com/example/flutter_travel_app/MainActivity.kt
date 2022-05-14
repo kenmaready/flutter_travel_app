@@ -1,4 +1,4 @@
-package com.example.flutter_travel_app
+package games.punchbug.flutter_travel_app
 
 import io.flutter.embedding.android.FlutterActivity
 
